@@ -4,7 +4,6 @@ package model
 import net.liftweb._
 import util._
 import Helpers._
-import common._
 import json._
 import com.github.nscala_time.time.Imports._
 import net.liftweb.json.JsonDSL._
@@ -19,7 +18,6 @@ object Commands {
     json merge extraFields
   }
 }
-
 
 object DateTimeSerializer extends Serializer[com.github.nscala_time.time.Imports.DateTime] {
   private val Class = classOf[com.github.nscala_time.time.Imports.DateTime]
