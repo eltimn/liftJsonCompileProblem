@@ -10,7 +10,7 @@ import net.liftweb.json.JsonDSL._
 
 object Commands {
   private implicit val formats =
-    json.DefaultFormats + DateTimeSerializer
+    json.DefaultFormats + DateTimeSerializer + new TimeSpanSerializer
 
   def startRun(name: String, json: JValue)= {
     val now: com.github.nscala_time.time.Imports.DateTime = DateTime.now
@@ -33,4 +33,14 @@ object DateTimeSerializer extends Serializer[com.github.nscala_time.time.Imports
     case t: com.github.nscala_time.time.Imports.DateTime => JInt(t.getMillis)
   }
 }
+
+// based on https://groups.google.com/d/topic/liftweb/C9PUhGSO8oQ/discussion
+class TimeSpanSerializer extends CustomSerializer[com.github.nscala_time.time.Imports.DateTime](format => (
+  {
+    case JInt(millis) => new com.github.nscala_time.time.Imports.DateTime(millis.longValue)
+  },
+  {
+    case t: com.github.nscala_time.time.Imports.DateTime => JInt(t.getMillis)
+  }
+))
 
